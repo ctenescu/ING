@@ -40,9 +40,6 @@ public class RegisterServiceImpl implements RegisterService {
 
     public static final String INVALID_EMAIL_ADRESS = "INVALID_EMAIL_ADRESS";
 
-
-
-
     @Autowired
     UserRepository userRepository;
 
