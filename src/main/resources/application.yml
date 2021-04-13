@@ -1,0 +1,36 @@
+server:
+  port: 8101
+  ssl:
+    enabled : false
+  servlet:
+    context-path: /rest/api/db
+
+logging:
+  level:
+    root: DEBUG
+
+spring:
+  application:
+    name: ing-database-api
+  profiles:
+    active: '@spring.profiles.active@'
+  datasource:
+    url: jdbc:mysql://localhost:3306/ing #?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: parola112
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      database-platform: org.hibernate.dialect.MySQL5Dialect
+      database: com.mysql.cj.jdbc.Driver
+    show-sql: true
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: false
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: true
+  liquibase:
+    enabled: false
+

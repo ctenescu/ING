@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="202104131600" author="lucian.oancea">
+
+        <createTable tableName="users">
+            <column name="user_id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="user_primary_key"/>
+            </column>
+            <column name="email" type="varbinary(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varbinary(255)">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="first_name" type="varbinary(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varbinary(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name = "is_active" type="boolean" />
+            <column name="age" type="integer" />
+
+        </createTable>
+
+        <rollback>
+            drop table users;
+        </rollback>
+
+    </changeSet>
+
+</databaseChangeLog>
