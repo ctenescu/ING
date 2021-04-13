@@ -70,6 +70,15 @@ public class RegisterServiceImpl implements RegisterService {
             logIdentifiers.put("AGE", userRegisterRequest.getAge().toString());
             sensitiveLog.logSensitive(USER_REQUEST, logIdentifiers, null, null, logger, null, null);
 
+            // check email
+            if (!StringUtils.isEmpty(userRegisterRequest.getEmail())) {
+
+                boolean isEmailValid = EmailValidator.checkEmail(userRegisterRequest.getEmail());
+                if (!isEmailValid) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseCreateUser(INVALID_EMAIL_ADRESS, null));
+                }
+            }
+
             Optional<UserEntity> userEntity = userRepository.findByEmail(userRegisterRequest.getEmail().toLowerCase());
             if (userEntity.isPresent()) {
                 if (userEntity.get().getIsActive() == false) {
@@ -78,15 +87,6 @@ public class RegisterServiceImpl implements RegisterService {
                     responseEntity = ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseCreateUser(Constants.USER_ALREADY_EXISTS, null));
                 }
             } else {
-
-                // check email
-                if (!StringUtils.isEmpty(userRegisterRequest.getEmail())) {
-
-                    boolean isEmailValid = EmailValidator.checkEmail(userRegisterRequest.getEmail());
-                    if (!isEmailValid) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseCreateUser(INVALID_EMAIL_ADRESS, null));
-                    }
-                }
                 UserEntity userEntityToSave = userRequesToEntityMapper.mapUserDTOToEntity(userRegisterRequest);
 
                 UserEntity userEntitySaved = userRepository.save(userEntityToSave);
